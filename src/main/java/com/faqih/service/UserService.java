@@ -5,6 +5,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.faqih.entity.User;
+import com.faqih.exception.ApiException;
 import com.faqih.model.auth.RegisterRequest;
 import com.faqih.repository.UserRepository;
 
@@ -26,5 +28,12 @@ public class UserService {
          // buat handle errornya
          throw new ConstraintViolationException(constraintViolations);
       }
+      if (userRepository.existsByUsername(request.getUsername())) {
+         throw new ApiException("Username ini sudah digunakan");
+      }
+
+      User user = new User();
+      user.setUsername(request.getUsername());
+      // user.setPassword(???);
    }
 }
