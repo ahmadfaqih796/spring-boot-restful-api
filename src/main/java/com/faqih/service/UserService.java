@@ -4,11 +4,13 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.faqih.entity.User;
 import com.faqih.exception.ApiException;
 import com.faqih.model.auth.RegisterRequest;
 import com.faqih.repository.UserRepository;
+import com.faqih.security.BCrypt;
 
 import jakarta.validation.Validator;
 import jakarta.validation.ConstraintViolation;
@@ -22,6 +24,7 @@ public class UserService {
    @Autowired
    private Validator validator;
 
+   @Transactional
    public void register(RegisterRequest request) {
       Set<ConstraintViolation<RegisterRequest>> constraintViolations = validator.validate(request);
       if (constraintViolations.size() != 0) {
@@ -34,6 +37,9 @@ public class UserService {
 
       User user = new User();
       user.setUsername(request.getUsername());
-      // user.setPassword(???);
+      user.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
+      user.setName(request.getName());
+
+      userRepository.save(user);
    }
 }
