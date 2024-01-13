@@ -1,4 +1,4 @@
-package com.faqih.restful.entity;
+package com.faqih.entity;
 
 import java.util.List;
 

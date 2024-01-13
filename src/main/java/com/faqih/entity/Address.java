@@ -1,4 +1,4 @@
-package com.faqih.restful.entity;
+package com.faqih.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,20 +16,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "contacts")
+@Table(name = "addresses")
 
-public class Contact {
+public class Address {
    @Id
    private Integer id;
-   private String username;
-   @Column(name = "first_name")
-   private Long firstName;
-   @Column(name = "last_name")
-   private Long lastName;
-   private String phone;
-   private String email;
+   private String street;
+   private String city;
+   private String province;
+   private String country;
+   @Column(name = "postal_code")
+   private Long postalCode;
 
    @ManyToOne
-   @JoinColumn(name = "username", referencedColumnName = "username")
-   private User user;
+   @JoinColumn(name = "contact_id", referencedColumnName = "id")
+   private Contact contact;
 }
